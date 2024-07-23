@@ -1,0 +1,33 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import './App.css';
+
+const App = () => {
+  const [advice, setAdvice] = useState('');
+
+  const fetchAdvice = async () => {
+    try {
+      const response = await axios.get('https://api.adviceslip.com/advice');
+      setAdvice(response.data.slip.advice);
+    } catch (error) {
+      console.error('Error fetching advice:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAdvice();
+  }, []);
+
+  return (
+    <div className="app">
+      <div className="card">
+        <h1 className="advice">"{advice}"</h1>
+        <button className="dice-button" onClick={fetchAdvice}>
+          <img src="data:image/jpeg;base64,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" alt="dice" />
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default App;
